@@ -5,15 +5,31 @@ import Users from "./Users";
 import { Component } from 'react'
 
 export default class MainApp extends Component {
+
+//==== initialize the state=====
+  state={
+      headerMessage : "welcome to header",
+      userData : []
+  }
+      //=====================================Operation===========
+
+      addUser=(data)=>{
+        this.setState((prevState)=>{
+          return{
+          userData:prevState.userData.concat(data)
+          }
+        })
+      }
+  
+
   render() {
-    const headerMessage = "welcome to header";
-    const userData = ["admin", "manager", "qa"];
+    
     return (
       <div>
-        <Header hm={headerMessage} />
+        <Header hm={this.state.headerMessage} />
         <p>Welcome to MainApp</p>
-        <Users ud={userData} />
-        <AddUser />
+        <Users ud={this.state.userData} />
+        <AddUser  au={this.addUser}/>
         <Footer />
       </div>
     );
@@ -22,43 +38,28 @@ export default class MainApp extends Component {
 
 ----------
 
-  import Footer from "./Footer"
-import Header from "./Header"
-import User from "./User"
-
-
-  function Users(props){
-
-    return(
-        <div>
-            
-           {
-            props.ud.map((users) =>  <User usr={users}/> )
-           }
-          
-            
-        </div>
-    )
-  }
-  export default Users
-
-
-
--------
-
   
 
-  function User(props){
 
+  function AddUser(props){
+
+    const addUser=(e)=>{
+      e.preventDefault();
+      const inputData=e.target.elements.uname.value
+        props.au(inputData)
+    }
     return(
         <div>
+            <p>User Add</p>
+<form onSubmit={addUser}>
+  UserName :<input type='text' name='uname'/>
+<button >Add</button>
+</form>
+  
             
-          <ul>
-            <li> {props.usr}</li>
-          </ul>
-          
+   
            
         </div>
     )
   }
-  export default User
+  export default AddUser
