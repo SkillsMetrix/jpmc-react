@@ -1,0 +1,25 @@
+ReactJS -> lib provided by facebook in order to ach -> SPA 
+
+
+MPA 
+SPA
+
+components -> Views
+
+component centric arch
+
+Angular ,Vue , 
+
+
+React -> 18
+
+
+Es6.0 -> Transpiler (Babel)  ->JS
+
+bundling tool -> webpack
+
+NodeJS (Platform)
+
+npm i -g create-react-app
+
+npx create-react-app my-app
