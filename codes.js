@@ -5,6 +5,26 @@ import Users from "./Users";
 import { Component } from "react";
 
 export default class MainApp extends Component {
+
+  //=============Lifecycle-----------
+
+  componentDidMount(){
+   
+    const json=localStorage.getItem('jpmc')
+    const userData= JSON.parse(json)
+    if(userData){
+      this.setState(()=>{
+        return {
+          userData
+        }
+      })
+    }
+
+  }
+  componentDidUpdate(){
+   const json= JSON.stringify(this.state.userData)
+   localStorage.setItem('jpmc',json)
+  }
   //==== initialize the state=====
   state = {
     headerMessage: "welcome to header",
@@ -51,39 +71,3 @@ export default class MainApp extends Component {
     );
   }
 }
-
-
-
-
-import Footer from "./Footer";
-import Header from "./Header";
-import User from "./User";
-
-function Users(props) {
-  return (
-    <div>
-      {props.ud.map((users) => (
-        <User key={users} usr={users} dUser={props.deleteUser} />
-      ))}
-      <button disabled={!props.hasData} onClick={props.da}>
-        delete all
-      </button>
-    </div>
-  );
-}
-export default Users;
-
-
-
-
-function User(props) {
-  return (
-    <div>
-      <ul>
-        <li> {props.usr}</li>
-      </ul>
-      <button onClick={() => props.dUser(props.usr)}>delete</button>
-    </div>
-  );
-}
-export default User;
