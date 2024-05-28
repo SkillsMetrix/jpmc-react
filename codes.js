@@ -1,21 +1,35 @@
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+function Register(props) {
+  const navigate = useNavigate();
+  const [users, setUsers] = useState([]);
 
+  const handleChange = (e) => {
+    setUsers({ ...users, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = JSON.stringify(users);
+    localStorage.setItem("udata", data);
+    navigate("/");
+  };
 
-import React from "react";
-
-function NavBar(props) {
   return (
-    <div className="container">
-      <ul className="nav">
-        <li className="nav-item">
-          <a className="nav-link active" aria-current="page" href="#">
-            Active
-          </a>
-        </li>
-      </ul>
+    <div className="input-group-mb-3">
+      <form onSubmit={handleSubmit}>
+        UserName:
+        <input type="text" name="uname" onChange={handleChange} />
+        Email:
+        <input type="text" name="email" onChange={handleChange} />
+        Password:
+        <input type="password" name="password" onChange={handleChange} />
+        City:
+        <input type="text" name="city" onChange={handleChange} />
+        <button className="btn btn-primary">Register</button>
+      </form>
     </div>
   );
 }
 
-export default NavBar;
+export default Register;
