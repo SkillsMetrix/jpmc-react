@@ -1,29 +1,34 @@
+import React, { useState } from "react";
 
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-const URL = "https://jsonplaceholder.typicode.com/users";
-export default function RestApp() {
-    // initialize the state
-    const [users,setUsers]= useState([])
+function UserApp(props) {
+  const [users, setUsers] = useState([]);
+  const [uname, setUname] = useState("");
 
-    //load the API during onLoad
-    useEffect(()=>{
-        axios.get(URL)
-        .then(res => res.data)
-        .then(data =>{
-            setUsers(data)
-        })
-
-    },[])
+  const addUser = (e) => {
+    e.preventDefault();
+    setUsers([...users, { uname }]);
+    setUname("");
+  };
   return (
-    <div className="container">
-        <p>User Data</p>
-
+    <div>
+      <div>
         {users.map((user) => (
-          <div>
-            {user.name} --- {user.email}
-          </div>
+          <div key={user.uname}>{user.uname}</div>
         ))}
       </div>
-  )
+      <hr />
+      <form onSubmit={addUser}>
+        UserName:
+        <input
+          type="text"
+          name="uname"
+          value={uname}
+          onChange={(e) => setUname(e.target.value)}
+        />
+        <button>Add User</button>
+      </form>
+    </div>
+  );
 }
+
+export default UserApp;
