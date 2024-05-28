@@ -1,35 +1,17 @@
-import React, { createContext, useContext, useState } from "react";
+import React from "react";
 
-const appContext=createContext()
-const userData={id:101,name:'admin',email:'admin@mail.com',income:23456}
-function ContextApiDemo(props) {
-    const [emp,setEmp]= useState(userData)
+function NavBar(props) {
   return (
-    <div>
-        <appContext.Provider value={emp}>
-        <Employee />
-        </appContext.Provider>
-     
+    <div className="container">
+      <ul className="nav">
+        <li className="nav-item">
+          <a className="nav-link active" aria-current="page" href="#">
+            Active
+          </a>
+        </li>
+      </ul>
     </div>
   );
 }
 
-function Employee(props) {
-    const empContext=useContext(appContext)
-  return (
-    <div>
-        <p>Employee Name:{empContext.name}</p>
-        <p>Employee id:{empContext.id}</p>
-      <Salary />
-    </div>
-  );
-}
-function Salary(props) {
-    const salaryContext= useContext(appContext)
-  return (
-    <div>
-      <p>Salary : {salaryContext.income}</p>
-    </div>
-  );
-}
-export default ContextApiDemo;
+export default NavBar;
