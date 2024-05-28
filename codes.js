@@ -1,34 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 
-function UserAppNew(props) {
-  const [users, setUsers] = useState([]);
-
-  const handleChange = (e) => {
-    setUsers({ ...users, [e.target.name]: e.target.value });
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(users);
-  };
-  const deleteUser = (user) => {
-    setUsers(users.filter((us) => us.uname !== user));
-  };
-  useEffect(() => {
-    localStorage.setItem("jpmc", JSON.stringify(users));
-  }, [users]);
+const appContext=createContext()
+const userData={id:101,name:'admin',email:'admin@mail.com',income:23456}
+function ContextApiDemo(props) {
+    const [emp,setEmp]= useState(userData)
   return (
     <div>
+        <appContext.Provider value={emp}>
+        <Employee />
+        </appContext.Provider>
      
-      <hr />
-      <form onSubmit={handleSubmit}>
-        UserName:
-        <input type="text" name="uname" onChange={handleChange} />
-        Email:
-        <input type="text" name="email" onChange={handleChange} />
-        <button>Add User</button>
-      </form>
     </div>
   );
 }
 
-export default UserAppNew;
+function Employee(props) {
+    const empContext=useContext(appContext)
+  return (
+    <div>
+        <p>Employee Name:{empContext.name}</p>
+        <p>Employee id:{empContext.id}</p>
+      <Salary />
+    </div>
+  );
+}
+function Salary(props) {
+    const salaryContext= useContext(appContext)
+  return (
+    <div>
+      <p>Salary : {salaryContext.income}</p>
+    </div>
+  );
+}
+export default ContextApiDemo;
