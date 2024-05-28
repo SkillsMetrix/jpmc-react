@@ -1,35 +1,50 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+const counterReducer = (state = 20, action) => {
+  switch (action.type) {
+    case "INCREMENT":
+      return state + 1;
+    case "DECREMENT":
+      return state - 1;
+    default:
+      return state;
+  }
+};
+export default counterReducer;
 
-function Register(props) {
-  const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
 
-  const handleChange = (e) => {
-    setUsers({ ...users, [e.target.name]: e.target.value });
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = JSON.stringify(users);
-    localStorage.setItem("udata", data);
-    navigate("/");
-  };
 
-  return (
-    <div className="input-group-mb-3">
-      <form onSubmit={handleSubmit}>
-        UserName:
-        <input type="text" name="uname" onChange={handleChange} />
-        Email:
-        <input type="text" name="email" onChange={handleChange} />
-        Password:
-        <input type="password" name="password" onChange={handleChange} />
-        City:
-        <input type="text" name="city" onChange={handleChange} />
-        <button className="btn btn-primary">Register</button>
-      </form>
-    </div>
-  );
+----------
+
+
+  
+
+export const increment=()=>{
+    return{
+        type:"INCREMENT"
+    }
+}
+export const decrement=()=>{
+    return{
+        type:"DECREMENT"
+    }
+}
+----
+
+  
+
+import React from 'react';
+ import { useDispatch, useSelector } from 'react-redux';
+import { decrement, increment } from '../redux/actions/counterActions';
+function CounterApp(props) {
+    const data= useSelector(state => state.counter)
+    const dispatch=useDispatch()
+    return (
+        <div>
+             The Count is :{data}
+             <hr/>
+             <button onClick={()=> dispatch(increment())}>INC</button>
+             <button onClick={()=> dispatch(decrement())}>DEC</button>
+        </div>
+    );
 }
 
-export default Register;
+export default CounterApp;
