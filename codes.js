@@ -1,42 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-function UserApp(props) {
+function UserAppNew(props) {
   const [users, setUsers] = useState([]);
-  const [uname, setUname] = useState("");
-  const [email, setEmail] = useState("");
 
-  const addUser = (e) => {
-    e.preventDefault();
-    setUsers([...users, { uname,email }]);
-    setUname("");
+  const handleChange = (e) => {
+    setUsers({ ...users, [e.target.name]: e.target.value });
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(users);
+  };
+  const deleteUser = (user) => {
+    setUsers(users.filter((us) => us.uname !== user));
+  };
+  useEffect(() => {
+    localStorage.setItem("jpmc", JSON.stringify(users));
+  }, [users]);
   return (
     <div>
-      <div>
-        {users.map((user) => (
-          <div key={user.uname}>{user.uname}---{user.email}</div>
-        ))}
-      </div>
+     
       <hr />
-      <form onSubmit={addUser}>
+      <form onSubmit={handleSubmit}>
         UserName:
-        <input
-          type="text"
-          name="uname"
-          value={uname}
-          onChange={(e) => setUname(e.target.value)}
-        />
-         Email:
-        <input
-          type="text"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <input type="text" name="uname" onChange={handleChange} />
+        Email:
+        <input type="text" name="email" onChange={handleChange} />
         <button>Add User</button>
       </form>
     </div>
   );
 }
 
-export default UserApp;
+export default UserAppNew;
