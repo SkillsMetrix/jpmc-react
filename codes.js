@@ -1,45 +1,17 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {call,put,takeEvery} from 'redux-saga/effects'
+import { GET_USER_FETCH, GET_USER_SUCCESS } from './actions'
 
-export const getUsers = createAsyncThunk("users/getUsers", async () => {
-  const response = await fetch("https://jsonplaceholder.typicode.com/users");
-  const res = await response.json();
-  return res;
-});
-export const userSlice = createSlice({
-  name: "users",
-  initialState: {
-    users: [],
-  },
-  extraReducers: {
-    [getUsers.fulfilled]: (state, action) => {
-      state.users = action.payload;
-    },
-  },
-});
-export default userSlice.reducer;
-
-
-
-
-
-
-
-
-import React,{useEffect} from 'react';
-import {useSelector,useDispatch} from 'react-redux'
-import { getUsers } from '../redux/userState';
-function UserApp(props) {
-    const data= useSelector(state => state.userdata.users)
-    const dispatch=useDispatch()
-
-    useEffect(()=>{
-      dispatch(getUsers())
-    })
-    return (
-        <div>
-            
-        </div>
-    );
+function usersFetch(){
+    return fetch('https://jsonplaceholder.typicode.com/users').then(response => response.json())
 }
 
-export default UserApp;
+
+function* workGetUserFetch(){
+    const users=yield call(usersFetch)
+    yield put ({type: GET_USER_SUCCESS},users)
+}
+function* mySaga(){
+    yield takeEvery(GET_USER_FETCH,workGetUserFetch)
+}
+
+export default mySaga
