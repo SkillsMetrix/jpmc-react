@@ -17,3 +17,29 @@ export const userSlice = createSlice({
   },
 });
 export default userSlice.reducer;
+
+
+
+
+
+
+
+
+import React,{useEffect} from 'react';
+import {useSelector,useDispatch} from 'react-redux'
+import { getUsers } from '../redux/userState';
+function UserApp(props) {
+    const data= useSelector(state => state.userdata.users)
+    const dispatch=useDispatch()
+
+    useEffect(()=>{
+      dispatch(getUsers())
+    })
+    return (
+        <div>
+            
+        </div>
+    );
+}
+
+export default UserApp;
