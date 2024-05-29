@@ -1,21 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const counterSlice= createSlice({
-
-    name:'counter',
-    initialState:{
-        counter:10
+export const getUsers = createAsyncThunk("users/getUsers", async () => {
+  const response = await fetch("https://jsonplaceholder.typicode.com/users");
+  const res = await response.json();
+  return res;
+});
+export const userSlice = createSlice({
+  name: "users",
+  initialState: {
+    users: [],
+  },
+  extraReducers: {
+    [getUsers.fulfilled]: (state, action) => {
+      state.users = action.payload;
     },
-
-    reducers:{
-        increment:(state)=>{
-            state.counter+=1
-        },
-        decrement:(state)=>{
-            state.counter-=1
-        },
-
-    }
-})
-export const {increment,decrement}=counterSlice.actions
-export default counterSlice.reducer
+  },
+});
+export default userSlice.reducer;
